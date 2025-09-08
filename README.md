@@ -1,19 +1,38 @@
 # 🧭 Project Analysis
-Brief Decription
+
+This project analyzes user behavior for a food-tech startup’s application. The first part explores the sales funnel, identifying how users progress through each stage, where they drop off, and how many ultimately reach the purchase stage. The second part focuses on an A/A/B test designed to evaluate a potential font change in the app. By comparing two control groups (with the old fonts) and one test group (with the new fonts), the analysis determines whether the design update impacts user behavior and ensures reliability by validating the similarity between control groups.
 
 ---
 
-## 🔍 Project Overview (P-202YMMDD_Name)
+## 🔍 Project Overview (P-20250909_Food_Supplier)
 
 Project Overview
 
 Key questions:
 
-- Objectives to reach
+1. Sales Funnel Analysis
+
+    - How do users progress through the sales funnel?
+    - How many users actually reach the purchase stage?
+    - At which stages do users get stuck or drop off?
+    - Which specific stages show the highest user drop-off rates?
+
+2. A/A/B Test Evaluation
+
+    - Do users respond differently to the new font design compared to the old one?
+    - Are the two control groups (A1 and A2) statistically similar, ensuring test reliability?
+    - Which font style (old vs. new) produces better user engagement or conversions?
+    - What insights can be drawn from comparing control groups for future experiment design?
 
 Project Info explanation
 
-__Note__: key info
+__Note__: 
+
+- Same dataset for both parts → The sales funnel analysis and the A/A/B test are based on the same dataset. This reinforces data consistency.
+- Dual control groups (A/A/B) → Having two control groups (A1 & A2) is crucial. It ensures reliability, since significant differences between them could reveal external factors biasing the experiment.
+- Experimentation mindset → In real-world scenarios, experiments like this are continuous. The project mimics how analysts repeatedly test and validate app quality with different datasets and designs.
+- Decision-making focus → The ultimate goal is guiding product decisions (whether to adopt the new font design) using statistical evidence, not intuition.
+- Quality of data → Validating that both control groups are similar provides insight into how much time and data are needed to run reliable tests in the future.
 
 ---
 
@@ -21,10 +40,12 @@ __Note__: key info
 
 This project has N different tables.
 
-- `dataset.csv` (describe content)
-    `column:name`: description.
-
-
+- `logs_exp_us.csv` (user event information)
+    `EventName`: Name of the event.
+    `DeviceIDHash`: unique user identifier.
+    `EventTimestamp`: event time.
+    `ExpId`: Experiment number. 246 and 247 are the control groups, and 248 is the test group.
+  
 ---
 
 ## 📚 Guided Foundations (Historical Context)
