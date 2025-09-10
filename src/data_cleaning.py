@@ -379,9 +379,9 @@ def detect_implicit_duplicates_fuzzy(df, column, threshold=90, show_progress=Tru
     return None
 
 # Function to convert string-based date/time columns to timezone-aware datetime or time objects
-def normalize_datetime(df, include=None, exclude=None, frmt=None, time_zone='UTC'):
+def normalize_datetime(df, include=None, exclude=None, frmt=None, time_zone='UTC', unix_unit='s'):
     """
-    Converts string-based columns in a DataFrame to datetime or time objects,
+    Converts string-based columns in a DataFrame to datetime or time objects, or from Unix timestamps
     with optional format and timezone adjustments.
 
     Parameters:
@@ -390,6 +390,7 @@ def normalize_datetime(df, include=None, exclude=None, frmt=None, time_zone='UTC
     - exclude (list, optional): Columns to exclude from conversion.
     - frmt (str, optional): Optional datetime format (e.g., '%Y-%m-%d', '%H:%M:%S').
     - time_zone (str): Timezone to localize or convert to (default: 'UTC').
+    - unix_unit (str): 's' for seconds (default), 'ms' for milliseconds, etc.
 
     Returns:
     DataFrame: DataFrame with parsed datetime or time columns.
@@ -404,9 +405,15 @@ def normalize_datetime(df, include=None, exclude=None, frmt=None, time_zone='UTC
         target_columns = [col for col in include if col not in exclude]
 
     for column in target_columns:
+        # Case 1: String-based or object
         if pd.api.types.is_object_dtype(df[column]) or pd.api.types.is_string_dtype(df[column]):
             df[column] = pd.to_datetime(df[column], format=frmt, errors='coerce')
+        
+        # Case 2: Numeric -> interpret as Unix timestamp
+        elif pd.api.types.is_numeric_dtype(df[column]):
+            df[column] = pd.to_datetime(df[column], unit=unix_unit, errors='coerce')
 
+        # If already datetime, adjust
         if pd.api.types.is_datetime64_any_dtype(df[column]):
             if frmt in ["%H:%M:%S", "%H:%M"]:
                 df[column] = df[column].dt.time
